@@ -2,7 +2,6 @@ package com.wyf.securitydemo01.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wyf.securitydemo01.entity.Users;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 /**
