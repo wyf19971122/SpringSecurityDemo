@@ -1,7 +1,7 @@
-package com.wyf.securitydemo01.service;
+package com.wyf.securitydemo01.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.wyf.securitydemo01.entity.Users;
+import com.wyf.securitydemo01.entity.pojo.Users;
 import com.wyf.securitydemo01.mapper.UsersMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -39,7 +39,7 @@ public class MyUserDetailsService implements UserDetailsService {
         //admins权限
 //        List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList("admins");
         //sale权限
-        List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_manager");
+        List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList(null);
         return new User(users.getUsername(),new BCryptPasswordEncoder().encode(users.getPassword()),auths);
     }
 }
