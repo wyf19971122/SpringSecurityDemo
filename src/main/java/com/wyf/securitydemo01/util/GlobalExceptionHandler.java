@@ -1,5 +1,6 @@
 package com.wyf.securitydemo01.util;
 
+import com.wyf.securitydemo01.exceptionHandle.CustomerException;
 import com.wyf.securitydemo01.exceptionHandle.LoginException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 
 /**
@@ -38,6 +40,11 @@ public class GlobalExceptionHandler {
         return R.build(e.getCode(), e.getMessage());
     }
 
+    @ExceptionHandler(CustomerException.class)
+    public R handlerCustomerException(CustomerException e, HttpServletResponse response){
+        System.out.println("111");
+        return R.build(400,e.getMsg());
+    }
     /**
      * validation Exception
      */

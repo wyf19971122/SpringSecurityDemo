@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.exceptionHandling().accessDeniedPage("/unAuth.html");
         http.formLogin()
                 .and().authorizeRequests()
-                .antMatchers("/", "/user/login", "/user/getLoginCaptchaCode").permitAll()//设置可以直接访问的路径，不要认证
+                .antMatchers("/", "/user/**").permitAll()//设置可以直接访问的路径，不要认证
                 //当前登录用户，只有具有admins权限才能访问(单个权限)
 //                        .antMatchers("/test/index").hasAnyAuthority("admins")
                 //多个权限

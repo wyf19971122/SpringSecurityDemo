@@ -1,21 +1,30 @@
 package com.wyf.securitydemo01.controller;
 
-import com.baomidou.mybatisplus.extension.api.R;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Maps;
+import com.wyf.securitydemo01.entity.dto.UpdatePasswordDto;
+import com.wyf.securitydemo01.entity.dto.UserAddDto;
+import com.wyf.securitydemo01.entity.dto.UserDto;
 import com.wyf.securitydemo01.entity.dto.UserLoginDto;
+import com.wyf.securitydemo01.entity.pojo.Users;
 import com.wyf.securitydemo01.exceptionHandle.LoginException;
 import com.wyf.securitydemo01.service.UserService;
 import com.wyf.securitydemo01.util.ImageVerificationCode;
+import com.wyf.securitydemo01.util.R;
 import com.wyf.securitydemo01.util.TipsEnum;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -27,6 +36,8 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/user")
 @AllArgsConstructor
+@CrossOrigin
+@Api(tags = "用户相关接口",value = "用户相关接口")
 public class UserController {
 
     private final RedisTemplate redisTemplate;
@@ -74,7 +85,7 @@ public class UserController {
     /**
      *  获取验证码(redis),并验证
      */
-    private void checkCaptcha(String key,String code){
+    public void checkCaptcha(String key,String code){
         Object obj = redisTemplate.opsForValue().get(CAPTCHA_DETAILS + key);
         if(obj == null){
             throw new LoginException(TipsEnum.CAPTCHA_IS_EXPIRE.getMessage(),TipsEnum.CAPTCHA_IS_EXPIRE.getCode());
@@ -83,6 +94,42 @@ public class UserController {
         if(!captcha.equals(code.toLowerCase())){
             throw new LoginException(TipsEnum.CAPTCHA_ERROR.getMessage(),TipsEnum.CAPTCHA_ERROR.getCode());
         }
+    }
+
+    //分页查询
+    @PostMapping("/queryUserPage")
+    @ApiOperation("分页查询用户信息")
+    public R queryUserPage(@Validated @RequestBody UserDto dto){
+        List<Users> result = userService.queryUserPage(dto);
+        return R.ok(result);
+    }
+
+    @GetMapping("/queryById")
+    @ApiOperation("根据id查询用户")
+    public R queryById(@RequestParam Integer id){
+        Users users = userService.queryById(id);
+        return R.ok(users);
+    }
+
+    @GetMapping("/removeUser")
+    @ApiOperation("删除用户")
+    public R removeUser(@RequestParam Integer id){
+        userService.removeUser(id);
+        return R.ok("删除成功");
+    }
+
+    @PostMapping("/updatePassword")
+    @ApiOperation("修改密码")
+    public R updatePassword(@Validated @RequestBody UpdatePasswordDto dto){
+        userService.updatePassword(dto);
+        return R.ok("修改密码成功！");
+    }
+
+    @PostMapping("/addUser")
+    @ApiOperation("新增用户")
+    public R addUser(@Validated @RequestBody UserAddDto dto){
+        userService.addUser(dto);
+        return R.ok();
     }
 
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyf.securitydemo01.mapper.UsersMapper">
+    <select id="selectUserByPage" resultType="com.wyf.securitydemo01.entity.pojo.Users">
+        select
+        id,
+        username,
+        password,
+        user_real_name,
+        sex,
+        phone,
+        address
+        from
+        users
+        <where>
+            username like concat('%',#{dto.username},'%')
+        </where>
+
+
+    </select>
+
+</mapper>
