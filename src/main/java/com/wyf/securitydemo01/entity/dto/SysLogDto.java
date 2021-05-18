@@ -5,16 +5,15 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * @author luoyuting
- * @date 2021-05-16 21:26
- * @description
+ * @Author: wyf
+ * @Date: 2021/5/18 14:19
  */
 @Data
-@ApiModel("用户查询相关参数")
-public class UserDto {
+@ApiModel("系统日志查询相关参数")
+public class SysLogDto {
 
-    @ApiModelProperty("用户名")
-    private String username;
+    @ApiModelProperty("日志标题")
+    private String title;
 
     @ApiModelProperty("页面大小")
     private Integer size;

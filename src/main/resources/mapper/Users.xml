@@ -3,22 +3,19 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wyf.securitydemo01.mapper.UsersMapper">
-    <select id="selectUserByPage" resultType="com.wyf.securitydemo01.entity.pojo.Users">
+    <select id="listPage" resultType="com.wyf.securitydemo01.entity.pojo.Users">
         select
         id,
         username,
         password,
         user_real_name,
         sex,
-        phone,
         address
-        from
-        users
+        from users
         <where>
-            username like concat('%',#{dto.username},'%')
+            <if test="dto.username!=null and dto.username !=''">
+                username like concat('%',#{dto.username},'%')
+            </if>
         </where>
-
-
     </select>
-
 </mapper>

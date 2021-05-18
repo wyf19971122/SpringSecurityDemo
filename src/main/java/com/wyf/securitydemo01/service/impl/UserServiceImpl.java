@@ -14,16 +14,13 @@ import com.wyf.securitydemo01.mapper.UsersMapper;
 import com.wyf.securitydemo01.service.UserService;
 import com.wyf.securitydemo01.util.R;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.security.SecurityUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author: wyf
@@ -58,18 +55,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Users> queryUserPage(UserDto dto) {
+    public Page<Users> queryUserPage(UserDto dto) {
         Page<Users> page = new Page<>();
         page.setSize(dto.getSize());
         page.setCurrent(dto.getCurrent());
-        if (null!=dto.getUsername()){
-            QueryWrapper<Users> queryWrapper = new QueryWrapper<>();
-            queryWrapper.like("username",dto.getUsername());
-            Page<Users> result = usersMapper.selectPage(page, queryWrapper);
-            return  result.getRecords();
-        }
-        Page<Users> result = usersMapper.selectPage(page, null);
-        return  result.getRecords();
+        List<Users> result = usersMapper.listPage(page, dto);
+        page.setRecords(result);
+        page.setTotal(result.size());
+        return page;
 
     }
 

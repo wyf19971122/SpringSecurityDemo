@@ -2,6 +2,7 @@ package com.wyf.securitydemo01.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Maps;
+import com.wyf.securitydemo01.aop.SysLog;
 import com.wyf.securitydemo01.entity.dto.UpdatePasswordDto;
 import com.wyf.securitydemo01.entity.dto.UserAddDto;
 import com.wyf.securitydemo01.entity.dto.UserDto;
@@ -54,6 +55,7 @@ public class UserController {
      */
     @PostMapping("/login")
     @ApiOperation("用户登录")
+    @SysLog(value = "用户登录")
     public R login(@RequestBody UserLoginDto userDto){
         // 验证码验证(忽略大小写)
         checkCaptcha(userDto.getRandomStr(),userDto.getCode());
@@ -97,14 +99,16 @@ public class UserController {
     }
 
     //分页查询
+    @SysLog(value = "分页查询用户信息")
     @PostMapping("/queryUserPage")
     @ApiOperation("分页查询用户信息")
     public R queryUserPage(@Validated @RequestBody UserDto dto){
-        List<Users> result = userService.queryUserPage(dto);
+        Page<Users> result = userService.queryUserPage(dto);
         return R.ok(result);
     }
 
     @GetMapping("/queryById")
+    @SysLog(value = "查询用户信息")
     @ApiOperation("根据id查询用户")
     public R queryById(@RequestParam Integer id){
         Users users = userService.queryById(id);
@@ -113,6 +117,7 @@ public class UserController {
 
     @GetMapping("/removeUser")
     @ApiOperation("删除用户")
+    @SysLog(value = "删除用户")
     public R removeUser(@RequestParam Integer id){
         userService.removeUser(id);
         return R.ok("删除成功");
@@ -120,12 +125,14 @@ public class UserController {
 
     @PostMapping("/updatePassword")
     @ApiOperation("修改密码")
+    @SysLog(value = "修改密码")
     public R updatePassword(@Validated @RequestBody UpdatePasswordDto dto){
         userService.updatePassword(dto);
         return R.ok("修改密码成功！");
     }
 
     @PostMapping("/addUser")
+    @SysLog(value = "新增用户")
     @ApiOperation("新增用户")
     public R addUser(@Validated @RequestBody UserAddDto dto){
         userService.addUser(dto);

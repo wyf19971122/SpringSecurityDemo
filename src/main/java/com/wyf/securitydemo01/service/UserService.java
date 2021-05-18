@@ -9,7 +9,6 @@ import com.wyf.securitydemo01.entity.pojo.Users;
 import com.wyf.securitydemo01.util.R;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author: wyf
@@ -18,7 +17,7 @@ import java.util.Map;
 public interface UserService {
     R login(UserLoginDto dto);
 
-    List<Users> queryUserPage(UserDto dto);
+    Page<Users> queryUserPage(UserDto dto);
 
     Users queryById(Integer id);
 
