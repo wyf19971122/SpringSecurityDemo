@@ -3,10 +3,7 @@ package com.wyf.securitydemo01.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Maps;
-import com.wyf.securitydemo01.entity.dto.UpdatePasswordDto;
-import com.wyf.securitydemo01.entity.dto.UserAddDto;
-import com.wyf.securitydemo01.entity.dto.UserDto;
-import com.wyf.securitydemo01.entity.dto.UserLoginDto;
+import com.wyf.securitydemo01.entity.dto.*;
 import com.wyf.securitydemo01.entity.pojo.Users;
 import com.wyf.securitydemo01.exceptionHandle.CustomerException;
 import com.wyf.securitydemo01.exceptionHandle.LoginException;
@@ -86,10 +83,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updatePassword(UpdatePasswordDto dto) {
         Users users = usersMapper.selectById(dto.getId());
-        if (dto.getOldPwd().equals(users.getPassword())){
+        if (!dto.getOldPwd().equals(users.getPassword())){
             throw new CustomerException("修改密码失败,原密码错误");
         }
-        if (dto.getNewPwd().equals(dto.getConfirmPwd())){
+        if (!dto.getNewPwd().equals(dto.getConfirmPwd())){
             throw new CustomerException("修改密码不一致，两次密码不一致");
         }
         users.setPassword(dto.getConfirmPwd());
@@ -107,6 +104,23 @@ public class UserServiceImpl implements UserService {
         int rows = usersMapper.insert(users);
         if (rows < 1){
             throw new CustomerException("添加用户失败！");
+        }
+    }
+
+    @Override
+    public void updateUser(UserUpdateDto dto) {
+        QueryWrapper<Users> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_real_name",dto.getUserRealName());
+        queryWrapper.ne("id",dto.getId());
+        List<Users> users = usersMapper.selectList(queryWrapper);
+        if (users.size() > 0){
+            throw new CustomerException("修改失败，真实姓名不能一样！");
+        }
+        Users users1 = usersMapper.selectById(dto.getId());
+        BeanUtils.copyProperties(dto,users1);
+        int i = usersMapper.updateById(users1);
+        if (i < 1){
+            throw new CustomerException("修改信息失败！");
         }
     }
 }

@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
 
 /**
@@ -28,6 +29,6 @@ public class OdSysLog {
     private String title;
 
     @ApiModelProperty(value = "创建时间")
-    private Timestamp createTime;
+    private String createTime;
 
 }

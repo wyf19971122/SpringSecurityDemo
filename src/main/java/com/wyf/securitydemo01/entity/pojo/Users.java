@@ -1,5 +1,7 @@
 package com.wyf.securitydemo01.entity.pojo;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -13,6 +15,7 @@ import lombok.Data;
 public class Users {
 
     @ApiModelProperty(value = "用户id")
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     @ApiModelProperty(value = "用户名")

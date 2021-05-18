@@ -1,10 +1,7 @@
 package com.wyf.securitydemo01.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wyf.securitydemo01.entity.dto.UpdatePasswordDto;
-import com.wyf.securitydemo01.entity.dto.UserAddDto;
-import com.wyf.securitydemo01.entity.dto.UserDto;
-import com.wyf.securitydemo01.entity.dto.UserLoginDto;
+import com.wyf.securitydemo01.entity.dto.*;
 import com.wyf.securitydemo01.entity.pojo.Users;
 import com.wyf.securitydemo01.util.R;
 
@@ -26,4 +23,6 @@ public interface UserService {
     void updatePassword(UpdatePasswordDto dto);
 
     void addUser(UserAddDto dto);
+
+    void updateUser(UserUpdateDto dto);
 }

@@ -3,10 +3,7 @@ package com.wyf.securitydemo01.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Maps;
 import com.wyf.securitydemo01.aop.SysLog;
-import com.wyf.securitydemo01.entity.dto.UpdatePasswordDto;
-import com.wyf.securitydemo01.entity.dto.UserAddDto;
-import com.wyf.securitydemo01.entity.dto.UserDto;
-import com.wyf.securitydemo01.entity.dto.UserLoginDto;
+import com.wyf.securitydemo01.entity.dto.*;
 import com.wyf.securitydemo01.entity.pojo.Users;
 import com.wyf.securitydemo01.exceptionHandle.LoginException;
 import com.wyf.securitydemo01.service.UserService;
@@ -61,6 +58,12 @@ public class UserController {
         checkCaptcha(userDto.getRandomStr(),userDto.getCode());
         // 用户登录
         return R.ok(userService.login(userDto));
+    }
+    @GetMapping("/logout")
+    @ApiOperation("退出登录")
+    @SysLog(value = "退出登录")
+    public R logout(){
+        return R.ok("退出登录");
     }
 
     /**
@@ -136,7 +139,15 @@ public class UserController {
     @ApiOperation("新增用户")
     public R addUser(@Validated @RequestBody UserAddDto dto){
         userService.addUser(dto);
-        return R.ok();
+        return R.ok("新增用户成功！");
+    }
+
+    @PostMapping("/updateUser")
+    @SysLog(value = "修改用户信息")
+    @ApiOperation("修改用户信息")
+    public R updateUser(@Validated @RequestBody UserUpdateDto dto){
+        userService.updateUser(dto);
+        return R.ok("修改用户信息成功！");
     }
 
 }

@@ -1,5 +1,6 @@
 package com.wyf.securitydemo01.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wyf.securitydemo01.entity.dto.SysLogDto;
 import com.wyf.securitydemo01.entity.pojo.OdSysLog;
@@ -28,10 +29,10 @@ public class SysLogServiceImpl implements SysLogService {
         Page<OdSysLog> page = new Page<>();
         page.setSize(dto.getSize());
         page.setCurrent(dto.getCurrent());
-        List<OdSysLog> result = sysLogMapper.listPage(page, dto);
-        page.setRecords(result);
-        page.setTotal(result.size());
-        return page;
+        QueryWrapper<OdSysLog> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("title",dto.getTitle());
+        Page<OdSysLog> result = sysLogMapper.selectPage(page, queryWrapper);
+        return result;
     }
 
     @Override

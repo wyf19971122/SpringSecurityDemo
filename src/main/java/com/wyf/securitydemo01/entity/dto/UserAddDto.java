@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @author luoyuting
  * @date 2021-05-17 22:10
@@ -14,6 +16,7 @@ import lombok.Data;
 public class UserAddDto {
 
     @ApiModelProperty("用户名")
+    @NotNull
     private String username;
 
     @ApiModelProperty("真实姓名")

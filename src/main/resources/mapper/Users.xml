@@ -10,6 +10,7 @@
         password,
         user_real_name,
         sex,
+        phone,
         address
         from users
         <where>

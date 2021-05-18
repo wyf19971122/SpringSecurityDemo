@@ -16,7 +16,7 @@ public class UpdatePasswordDto {
 
     //用户id
     @NotNull
-    private String id;
+    private Integer id;
 
     //原密码
     @NotNull
