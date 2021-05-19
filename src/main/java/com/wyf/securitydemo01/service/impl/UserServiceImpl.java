@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
             throw new LoginException("用户名或密码错误！");
         }
         result.put("id", users.getId());
-        result.put("username", dto.getUsername());
+        result.put("userRealName", users.getUserRealName());
         return R.ok(result);
     }
 

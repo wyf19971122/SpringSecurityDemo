@@ -42,7 +42,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomerException.class)
     public R handlerCustomerException(CustomerException e, HttpServletResponse response){
-        System.out.println("111");
         return R.build(400,e.getMsg());
     }
     /**
